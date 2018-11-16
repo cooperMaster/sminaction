@@ -1,0 +1,35 @@
+version: '2'
+services:
+  eurekaserver:
+   image:   master088088/sminaction-eurekaserver
+   ports:
+       - "8761:8761"
+  configserver:
+    image: master088088/sminaction-configserver
+    ports:
+      - "8888:8888"
+    environment:
+      EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+      EUREKASERVER_PORT: "8761"
+      ENCRYPT_KEY: "secretkey"
+  database:
+      image: postgres
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=eagle_eye
+  organizationservice:
+      image: master088088/sminaction-organizationservice
+      ports:
+        - "8085:8085"
+      environment:
+        PROFILE: "default"
+        SERVER_PORT: "8085"
+        CONFIGSERVER_URI: "http://configserver:8888"
+        EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+        EUREKASERVER_PORT:        "8761"
+        DATABASESERVER_PORT:      "5432"
+        CONFIGSERVER_PORT:        "8888"
+        ENCRYPT_KEY: "secretkey"

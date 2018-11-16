@@ -1,0 +1,12 @@
+com\example\organizationservice\controllers\OrganizationServiceController.class
+com\example\organizationservice\utils\UserContextFilter.class
+com\example\organizationservice\utils\UserContext.class
+com\example\organizationservice\utils\UserContextInterceptor.class
+com\example\organizationservice\hystrix\ThreadLocalAwareStrategy.class
+com\example\organizationservice\model\Organization.class
+com\example\organizationservice\services\OrganizationService.class
+com\example\organizationservice\hystrix\DelegatingUserContextCallable.class
+com\example\organizationservice\OrganizationApplication.class
+com\example\organizationservice\repository\OrganizationRepository.class
+com\example\organizationservice\hystrix\ThreadLocalConfiguration.class
+com\example\organizationservice\utils\UserContextHolder.class

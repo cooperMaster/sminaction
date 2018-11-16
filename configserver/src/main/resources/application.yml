@@ -1,0 +1,29 @@
+server:
+   port: 8888
+spring:
+  profiles:
+    active: native
+  cloud:
+     config:
+       server:
+           native:
+#              searchLocations: file://<chapter 3>/confsvr/src/main/resources/config/licensingservice,
+#                               file://<chapter 3>confsvr/src/main/resources/config/organizationservice
+              searchLocations: classpath:config/,classpath:config/organizationservice,classpath:config/licensingservice
+
+
+#Setting logging levels
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.thoughtmechanix: DEBUG
+
+eureka:
+#  client:
+#    registerWithEureka: false
+#    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+  serviceUrl:
+    defaultZone: http://localhost:8761

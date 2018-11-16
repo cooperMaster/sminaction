@@ -1,0 +1,50 @@
+<plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/dockerfile</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/docker</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>${docker.image.name}:${docker.image.tag}</imageName>
+                    <dockerDirectory>${basedir}/target/dockerfile</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
+mvn clean package docker:build --以上可以构建docker镜像
+第一个plugin为将src/main/docker 中的内容复制到${basedir}/target/dockerfile目录下
+第二个plugin为构建镜像 以及 jar包
+通过clean package docker:build进行pom构建，但是2375端口不通，无法构建镜像
+进入target/docker目录进行docker build手动构建，主要是有@project.build.finalName@.jar 能访问到jar包
+* 要用clean package docker:build 才有target/docker目录
+
+windows下编辑的sh脚本在vi file下看到有^M (windows的换行符为\r\n,在linux下，换行为\n)，造成 Unable to access jarfile /usr/local/eurekaserver/eurekaserver-0.0.1.jar
+尝试了用CMD sed -i 's/^M//g' run.sh 构建后的镜像都无法启动
+最后解决 1、去掉换行
+        2、在-jar /usr/local/eurekaserver/@project.build.finalName@.jar后面加个空格在加&
