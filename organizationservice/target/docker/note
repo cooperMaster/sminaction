@@ -1,1 +1,0 @@
-docker build -t "master088088/sminaction-organizationservice" .
