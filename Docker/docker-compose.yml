@@ -25,7 +25,7 @@ services:
       ports:
         - "8085:8085"
       environment:
-        PROFILE: "default"
+        PROFILE: "docker"
         SERVER_PORT: "8085"
         CONFIGSERVER_URI: "http://configserver:8888"
         EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
